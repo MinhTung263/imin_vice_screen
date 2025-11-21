@@ -32,7 +32,7 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
-
+import com.imin.vice_screen.R;
 import org.json.JSONArray;
 
 import java.util.ArrayList;

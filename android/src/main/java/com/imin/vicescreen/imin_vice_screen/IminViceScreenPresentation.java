@@ -4,7 +4,7 @@ import android.app.Presentation;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Display;
-
+import com.imin.vice_screen.R;
 import io.flutter.embedding.android.FlutterView;
 import io.flutter.embedding.engine.FlutterEngine;
 
