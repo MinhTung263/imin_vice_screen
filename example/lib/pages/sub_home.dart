@@ -29,9 +29,9 @@ class _SubHomeState extends State<SubHome> {
     if (!mounted) return;
     _iminViceScreenPlugin.viceStream.listen((event) {
       debugPrint('viceStream: ${event.method}');
-        setState(() {
-          receiveData = event.arguments.toString();
-        });
+      setState(() {
+        receiveData = event.arguments.toString();
+      });
     });
 
     Future.delayed(const Duration(seconds: 5), sendMsgToMainScreen);

@@ -19,9 +19,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 
-import com.imin.image.ILcdManager;
-import com.imin.image.StringUtils;
-
 import io.flutter.Log;
 import io.flutter.embedding.engine.dart.DartExecutor;
 
@@ -102,88 +99,6 @@ public class IminViceScreenPlugin implements FlutterPlugin, ActivityAware, Metho
                 break;
             case "doubleScreenCancel":
                 IminViceScreenProvider.getInstance().closeSubDisplay();
-                result.success(true);
-                break;
-            case "sendLCDCommand":
-                int command = call.argument("command");
-                ILcdManager.getInstance(_context).sendLCDCommand(command);
-                result.success(true);
-                break;
-            case "sendLCDString":
-                String content = call.argument("content");
-                try {
-                    ILcdManager.getInstance(_context).sendLCDString(content);
-                    result.success(true);
-                } catch (Exception err) {
-                    Log.e(TAG + "sendLCDString", err.getMessage());
-                }
-                break;
-            case "sendLCDMultiString":
-                String contentsStr = call.argument("contents");
-                String alignsStr = call.argument("aligns");
-                try {
-                    JSONArray jsonContents = new JSONArray(contentsStr);
-                    JSONArray jsonAligns = new JSONArray(alignsStr);
-                    String[] contents = new String[jsonContents.length()];
-                    int[] aligns = new int[jsonAligns.length()];
-                    for (int i = 0; i < jsonContents.length(); i++) {
-                        contents[i] = jsonContents.getString(i);
-                    }
-                    for (int i = 0; i < jsonAligns.length(); i++) {
-                        aligns[i] = jsonAligns.getInt(i);
-                    }
-                    ILcdManager.getInstance(_context).sendLCDMultiString(contents, aligns);
-                    result.success(true);
-                } catch (Exception err) {
-                    Log.e(TAG + "sendLCDMultiString", err.getMessage());
-                }
-                break;
-            case "sendLCDDoubleString":
-                String topText = call.argument("topText");
-                String bottomText = call.argument("bottomText");
-                try {
-                    ILcdManager.getInstance(_context).sendLCDDoubleString(topText, bottomText);
-                    result.success(true);
-                } catch (Exception err) {
-                    Log.e(TAG + "sendLCDDoubleString", err.getMessage());
-                }
-                break;
-            case "sendLCDBitmap":
-                try {
-                    byte[] bytes = call.argument("bitmap");
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    ILcdManager.getInstance(_context).sendLCDBitmap(bitmap);
-                    result.success(true);
-                } catch (Exception err) {
-                    Log.e(TAG + "sendLCDBitmap", err.getMessage());
-                }
-                break;
-            case "sendLCDBitmapToUrl":
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            if (call.argument("height") != null && call.argument("width") != null) {
-                                int imageWidth = call.argument("width");
-                                int imageHeight = call.argument("height");
-                                String img = call.argument("bitmap");
-                                Bitmap image = Glide.with(_context).asBitmap().load(img).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).submit(imageWidth, imageHeight).get();
-                                ILcdManager.getInstance(_context).sendLCDBitmap(image);
-                            } else {
-                                String img = call.argument("bitmap");
-                                Bitmap image = Glide.with(_context).asBitmap().load(img).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).submit().get();
-                                ILcdManager.getInstance(_context).sendLCDBitmap(image);  
-                            }
-                            result.success(true);
-                        } catch (Exception err) {
-                            Log.e(TAG, "sendLCDBitmapToUrl:" + err.getMessage());
-                        }
-                    }
-                }).start();
-                break;
-            case "setTextSize":
-                int size = call.argument("size");
-                ILcdManager.getInstance(_context).setTextSize(size);  
                 result.success(true);
                 break;
             default:
